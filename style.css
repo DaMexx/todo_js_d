@@ -14,3 +14,15 @@
     width: 50px;
     background-color: aqua  ;
 }
+
+.added-tasks {
+    display: flex;
+    justify-content: center;
+}
+li {
+    max-width: 100px;
+    word-wrap: break-word;
+    background-color: aquamarine;
+}
+#task_list { 
+}

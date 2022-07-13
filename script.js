@@ -1,5 +1,6 @@
 const $mainInput = document.getElementById('task_input');
 const $taskButton = document.getElementById('button');
+const $taskListMain = document.getElementById('task_list');
 const taskArray = [];
 
 const addNewTaskInArray = () => {
@@ -11,30 +12,30 @@ const addNewTaskInArray = () => {
   taskArray.push(task);
 };
 
-const createDiv = (task) => {
+// const a = () => {
+//   let b = document.createElement('li');
+//   b.innerHTML = `${$mainInput.value}`;
+//   $taskListMain.append(b);
+// };
 
-
-}
-
-const createNewLine = (text) => {
-  taskArray.forEach(el => createDiv(el))
-}
 const addTask = () => {
-  const value = `${$mainInput.value}`;
-  if (value === '') {
+  const newTaskText = `${$mainInput.value}`;
+  if (newTaskText === '') {
     return;
   }
-
-  addNewTaskInArray(value);
-  createNewLine();
+  // a();
+  addNewTaskInArray(newTaskText);
   $mainInput.value = '';
   console.log(taskArray);
+  
 };
 
 
 
-$taskButton.addEventListener('click', addTask);
 
+
+
+$taskButton.addEventListener('click', addTask);
 $mainInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     return addTask();
