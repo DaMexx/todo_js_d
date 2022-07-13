@@ -20,9 +20,10 @@
     justify-content: center;
 }
 li {
-    max-width: 100px;
+    max-width: 300px;
     word-wrap: break-word;
     background-color: aquamarine;
+    list-style-type: none;
 }
 #task_list { 
 }

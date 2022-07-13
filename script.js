@@ -28,11 +28,23 @@ const addNewTaskInArray = () => {
   taskArray.push(task);
   render();
 };
+
 const enterEvent = (event) => {
   if (event.key === 'Enter') {
     addNewTaskInArray();
   }
 };
+const changeStat = () => {
 
+}
+const checkTaskList = (e) => {
+  if (e.target && e.target.type === 'checkbox') {
+    console.log('hi');
+  } else if (e.target && e.target.nodeName === 'BUTTON') {
+    console.log('232');
+  }
+};
+
+taskListMain.addEventListener('click', checkTaskList);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
