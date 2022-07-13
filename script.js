@@ -11,23 +11,23 @@ const addNewTaskInArray = () => {
   };
   taskArray.push(task);
 };
-
-// const a = () => {
-//   let b = document.createElement('li');
-//   b.innerHTML = `${$mainInput.value}`;
-//   $taskListMain.append(b);
-// };
-
+const addNewLine = () => {
+  for (let i = 0; i >= taskArray.length; i++) {
+    let line = document.createElement('li');
+    line.innerHTML = taskArray[i].content;
+    $taskListMain.append(line);
+  };
+};
 const addTask = () => {
   const newTaskText = `${$mainInput.value}`;
   if (newTaskText === '') {
     return;
   }
-  // a();
+
   addNewTaskInArray(newTaskText);
   $mainInput.value = '';
+  addNewLine();
   console.log(taskArray);
-  
 };
 
 
