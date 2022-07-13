@@ -38,7 +38,7 @@ const enterEvent = (event) => {
 const changeStat = (id) => {
   taskArray.forEach((item) => {
     const task = item;
-    if (item.id === +id) {
+    if (task.id === +id) {
       task.status = !task.status;
     }
   });

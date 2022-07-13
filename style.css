@@ -4,6 +4,10 @@
     width: 20px;
 }
 
+#button:hover {
+    background-color: green;
+}
+
 .input {
     display: flex;
     justify-content: center;
@@ -12,18 +16,27 @@
 .new {
     height: 50px;
     width: 50px;
-    background-color: aqua  ;
+    background-color: aqua;
 }
 
 .added-tasks {
     display: flex;
     justify-content: center;
 }
+
 li {
     max-width: 300px;
     word-wrap: break-word;
     background-color: aquamarine;
     list-style-type: none;
 }
-#task_list { 
+
+#task_list {}
+
+button:hover {
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    background-color: red;
 }
