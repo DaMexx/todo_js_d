@@ -11,13 +11,16 @@ const addNewTaskInArray = () => {
   };
   taskArray.push(task);
 };
+
 const addNewLine = () => {
-  for (let i = 0; i >= taskArray.length; i++) {
-    let line = document.createElement('li');
-    line.innerHTML = taskArray[i].content;
-    $taskListMain.append(line);
-  };
+  $taskListMain.innerHTML = '';
+  for (let i = 0; i < taskArray.length; i++) {
+    const $line = document.createElement('li');
+    $line.innerHTML = taskArray[i].content;
+    $taskListMain.append($line);
+  }
 };
+
 const addTask = () => {
   const newTaskText = `${$mainInput.value}`;
   if (newTaskText === '') {
@@ -29,10 +32,6 @@ const addTask = () => {
   addNewLine();
   console.log(taskArray);
 };
-
-
-
-
 
 
 $taskButton.addEventListener('click', addTask);
