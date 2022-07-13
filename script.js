@@ -7,7 +7,7 @@ const render = () => {
   let tasks = '';
   taskArray.forEach((item) => {
     tasks += `<li id=${item.id}>
-    <input type=checkbox ${item.isComplete ? 'checked' : ''}>
+    <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
     <button>X</button>
     </li>`;
@@ -21,7 +21,7 @@ const addNewTaskInArray = () => {
   if (!content) return;
   const task = {
     content,
-    isComplete: false,
+    status: false,
     id: Date.now(),
   };
   mainInput.value = '';
@@ -34,14 +34,25 @@ const enterEvent = (event) => {
     addNewTaskInArray();
   }
 };
-const changeStat = () => {
 
-}
+const changeStat = (id) => {
+  taskArray.forEach((item) => {
+    const task = item;
+    if (item.id === +id) {
+      task.status = !task.status;
+    }
+  });
+  render();
+};
+
 const checkTaskList = (e) => {
   if (e.target && e.target.type === 'checkbox') {
-    console.log('hi');
+    //for checkbox
+    const currentId = e.target.parentElement.id;
+    changeStat(currentId);
+    console.log(currentId);
   } else if (e.target && e.target.nodeName === 'BUTTON') {
-    console.log('232');
+    //for delete_button
   }
 };
 
