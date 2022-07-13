@@ -1,42 +1,38 @@
-const $mainInput = document.getElementById('task_input');
-const $taskButton = document.getElementById('button');
-const $taskListMain = document.getElementById('task_list');
+const mainInput = document.getElementById('task_input');
+const addButton = document.getElementById('button');
+const taskListMain = document.getElementById('task_list');
 const taskArray = [];
 
+const render = () => {
+  let tasks = '';
+  taskArray.forEach((item) => {
+    tasks += `<li id=${item.id}>
+    <input type=checkbox ${item.isComplete ? 'checked' : ''}>
+    <span>${item.content}</span>
+    <button>X</button>
+    </li>`;
+    return null;
+  });
+  taskListMain.innerHTML = tasks;
+};
+
 const addNewTaskInArray = () => {
+  const content = mainInput.value.trim();
+  if (!content) return;
   const task = {
-    content: $mainInput.value,
+    content,
     isComplete: false,
-    id: Date.now,
+    id: Date.now(),
   };
+  mainInput.value = '';
   taskArray.push(task);
+  render();
 };
-
-const addNewLine = () => {
-  $taskListMain.innerHTML = '';
-  for (let i = 0; i < taskArray.length; i++) {
-    const $line = document.createElement('li');
-    $line.innerHTML = taskArray[i].content;
-    $taskListMain.append($line);
-  }
-};
-
-const addTask = () => {
-  const newTaskText = `${$mainInput.value}`;
-  if (newTaskText === '') {
-    return;
-  }
-
-  addNewTaskInArray(newTaskText);
-  $mainInput.value = '';
-  addNewLine();
-  console.log(taskArray);
-};
-
-
-$taskButton.addEventListener('click', addTask);
-$mainInput.addEventListener('keydown', (event) => {
+const enterEvent = (event) => {
   if (event.key === 'Enter') {
-    return addTask();
+    addNewTaskInArray();
   }
-});
+};
+
+addButton.addEventListener('click', addNewTaskInArray);
+mainInput.addEventListener('keydown', enterEvent);
