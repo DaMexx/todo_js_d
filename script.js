@@ -1,10 +1,10 @@
-const $inputValue = document.getElementById('task_input');
+const $mainInput = document.getElementById('task_input');
 const $taskButton = document.getElementById('button');
 const taskArray = [];
 
 const addNewTaskInArray = () => {
   const task = {
-    content: $inputValue.value,
+    content: $mainInput.value,
     isComplete: false,
     id: Date.now,
   };
@@ -16,27 +16,27 @@ const createDiv = (task) => {
 
 }
 
-const createNewLine = function (text) {
+const createNewLine = (text) => {
   taskArray.forEach(el => createDiv(el))
 }
 const addTask = () => {
-  const value = `${$inputValue.value}`;
+  const value = `${$mainInput.value}`;
   if (value === '') {
     return;
   }
 
   addNewTaskInArray(value);
   createNewLine();
-  $inputValue.value = '';
+  $mainInput.value = '';
   console.log(taskArray);
 };
 
 
 
 $taskButton.addEventListener('click', addTask);
-$taskButton.addEventListener('keydown', (event)=> {
-  if (event.key === 'Enter') { 
-    event.addTask();
 
+$mainInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    return addTask();
   }
 });
