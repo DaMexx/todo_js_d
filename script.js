@@ -104,7 +104,27 @@ const checkAllTasks = () => {
   render();
 };
 
+// trying edit tasks
+const taskEdit = (e) => {
+  const currentId = e.target.parentElement.id;
+  
+  if (e.target && e.target.nodeName === 'SPAN') {
+    const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
+    // alert(`${tasksArray[taskItemIndex].content}`);
+    // const newR = prompt(tasksArray[taskItemIndex].content);
+    // tasksArray[taskItemIndex].content = newR;
+    document.createElement('input');
+    let a = '';
+    a += `<input>`;
+  }
+  render();
+};
+
+// items[index].innerHTML = inputText.value;
+
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
+// double-click event
+taskListMain.addEventListener('dblclick', taskEdit);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
