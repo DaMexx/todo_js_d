@@ -29,6 +29,12 @@ const render = () => {
   } else {
     checkBoxAll.checked = false;
   }
+
+  if (tasksArray.length === 0) {
+    checkField.style.display = 'none';
+  } else {
+    checkField.style.display = 'block';
+  }
 };
 
 const addNewTaskInArray = () => {
