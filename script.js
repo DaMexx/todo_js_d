@@ -9,7 +9,7 @@ const render = () => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
-    <button>X</button>
+    <button class = 'list-button'>X</button>
     </li>`;
     return null;
   });
