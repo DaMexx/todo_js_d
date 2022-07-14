@@ -39,6 +39,24 @@ const render = () => {
   allTask.innerHTML = `All (${tasksArray.length})`;
   activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
   taskDone.innerHTML = `Active (${tasksArrayComplete.length})`;
+
+  if (tasksArray.length === 0) {
+    allTask.style.display = 'none';
+  } else {
+    allTask.style.display = 'block';
+  }
+
+  if (tasksArray.length === 0) {
+    activeTask.style.display = 'none';
+  } else {
+    activeTask.style.display = 'block';
+  }
+
+  if (tasksArray.length === 0) {
+    taskDone.style.display = 'none';
+  } else {
+    taskDone.style.display = 'block';
+  }
 };
 
 const addNewTaskInArray = () => {
@@ -104,7 +122,24 @@ const checkAllTasks = () => {
   render();
 };
 
+// trying edit tasks
+const taskEdit = (e) => {
+  if (e.target && e.target.nodeName === 'SPAN') {
+    const currentId = e.target.parentElement.id;
+    const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
+    alert(`${tasksArray[taskItemIndex].content}`);
+    const newR = prompt(tasksArray[taskItemIndex].content);
+    tasksArray[taskItemIndex].content = newR;
+    // e.target.id = taskItemIndex + 1;
+  }
+  render();
+};
+
+// items[index].innerHTML = inputText.value;
+
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
+// double-click event
+taskListMain.addEventListener('dblclick', taskEdit);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
