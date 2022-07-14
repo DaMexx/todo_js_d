@@ -3,12 +3,9 @@ const addButton = document.getElementById('button');
 const taskListMain = document.getElementById('task_list');
 const checkField = document.getElementById('checkField');
 const checkBoxAll = document.getElementById('checkAll');
-
-// const a = () => {
-//   checkField.style.display = "none";
-// }
-// a()
-
+const allTask = document.getElementById('allTask');
+const activeTask = document.getElementById('activeTask');
+const taskDone = document.getElementById('taskDone');
 
 const tasksArray = [];
 
@@ -20,7 +17,7 @@ const render = () => {
     <span>${item.content}</span>
     <button class = 'list-button'>X</button>
     </li>`;
-    return null;
+    // return null;
   });
   taskListMain.innerHTML = tasks;
 
@@ -35,6 +32,13 @@ const render = () => {
   } else {
     checkField.style.display = 'block';
   }
+
+  const tasksArrayActive = tasksArray.filter((el) => el.status === true);
+  const tasksArrayComplete = tasksArray.filter((el) => el.status === false);
+
+  allTask.innerHTML = `All (${tasksArray.length})`;
+  activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
+  taskDone.innerHTML = `Active (${tasksArrayComplete.length})`;
 };
 
 const addNewTaskInArray = () => {

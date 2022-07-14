@@ -31,8 +31,10 @@
 }
 
 .added-tasks {
+    max-width: 800px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 li {
@@ -58,7 +60,7 @@ li {
 } */
 
 .list-button {
-    background-color: #a5a5a5;
+    background-color: #f86b7e;
     border: 1px solid rgb(99, 0, 0);
     border-radius: 50%;
     color: white;
