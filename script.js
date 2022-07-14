@@ -1,6 +1,15 @@
 const mainInput = document.getElementById('task_input');
 const addButton = document.getElementById('button');
 const taskListMain = document.getElementById('task_list');
+const checkField = document.getElementById('checkField');
+const checkBoxAll = document.getElementById('checkAll');
+
+// const a = () => {
+//   checkField.style.display = "none";
+// }
+// a()
+
+
 const tasksArray = [];
 
 const render = () => {
@@ -14,6 +23,12 @@ const render = () => {
     return null;
   });
   taskListMain.innerHTML = tasks;
+
+  if (tasksArray.every((item) => item.status === true)) {
+    checkBoxAll.checked = true;
+  } else {
+    checkBoxAll.checked = false;
+  }
 };
 
 const addNewTaskInArray = () => {
@@ -63,6 +78,23 @@ const checkTaskList = (e) => {
   }
 };
 
+const checkAllTasks = () => {
+  if (checkBoxAll.checked) {
+    tasksArray.forEach((item) => {
+      const task = item;
+      task.status = true;
+    });
+  } else {
+    tasksArray.forEach((item) => {
+      const task = item;
+      task.status = false;
+    });
+  }
+
+  render();
+};
+
+checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
