@@ -1,11 +1,11 @@
 const mainInput = document.getElementById('task_input');
 const addButton = document.getElementById('button');
 const taskListMain = document.getElementById('task_list');
-const taskArray = [];
+const tasksArray = [];
 
 const render = () => {
   let tasks = '';
-  taskArray.forEach((item) => {
+  tasksArray.forEach((item) => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
@@ -25,7 +25,7 @@ const addNewTaskInArray = () => {
     id: Date.now(),
   };
   mainInput.value = '';
-  taskArray.push(task);
+  tasksArray.push(task);
   render();
 };
 
@@ -36,7 +36,7 @@ const enterEvent = (event) => {
 };
 
 const changeStat = (id) => {
-  taskArray.forEach((item) => {
+  tasksArray.forEach((item) => {
     const task = item;
     if (task.id === +id) {
       task.status = !task.status;
@@ -45,14 +45,21 @@ const changeStat = (id) => {
   render();
 };
 
+const deleteTask = (id) => {
+  const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
+  tasksArray.splice(taskItemIndex, 1);
+  render();
+};
+
 const checkTaskList = (e) => {
+  const currentId = e.target.parentElement.id;
   if (e.target && e.target.type === 'checkbox') {
-    //for checkbox
-    const currentId = e.target.parentElement.id;
+    //  for checkbox
     changeStat(currentId);
     console.log(currentId);
   } else if (e.target && e.target.nodeName === 'BUTTON') {
-    //for delete_button
+    //  for delete_button
+    deleteTask(currentId);
   }
 };
 
