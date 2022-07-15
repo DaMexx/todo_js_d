@@ -124,50 +124,44 @@ const checkAllTasks = () => {
 
 // trying edit tasks
 const taskEdit = (e) => {
-  render();
   if (e.target && e.target.nodeName === 'SPAN') {
     const currentId = e.target.parentElement.id;
-    // const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
     const thisEl = document.getElementById(currentId);
     const listItem = thisEl.getElementsByTagName('SPAN')[0];
     const inputText = document.createElement('input');
     inputText.value = `${listItem.innerHTML}`;
     inputText.id = 'editable';
     listItem.parentNode.replaceChild(inputText, listItem);
-    // const text = thisEl.getElementsByTagName('SPAN');
-    // console.log(text.innerHTML);
-    // itemText.classList.add = '.new';
-    // alert(`${tasksArray[taskItemIndex].content}`);
-    // const newR = prompt(tasksArray[taskItemIndex].content);
-    // tasksArray[taskItemIndex].content = newR;
-    // e.target.id = taskItemIndex + 1;
   }
 
   const editableTask = document.getElementById('editable');
+  editableTask.focus();
+
+  const editTask = () => {
+    const newContent = editableTask.value.trim();
+    const taskId = editableTask.parentElement.id;
+    const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
+    tasksArray[taskItemIndex].content = newContent;
+    render();
+  };
+
   const reWrite = (event) => {
     if (event.key === 'Enter') {
-      const newContent = editableTask.value.trim();
-      const taskId = editableTask.parentElement.id;
-      const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
-      tasksArray[taskItemIndex].content = newContent;
-      editableTask.removeEventListener('blur', render);
-      render();
+      editableTask.removeEventListener('blur', editTask);
+      editTask();
     }
   };
 
-  const cancelTask = (eventEsc) => {
-    if (eventEsc.key === 'Escape') {
-      editableTask.removeEventListener('blur', render);
+  const cancelTask = (event) => {
+    if (event.key === 'Escape') {
+      editableTask.removeEventListener('blur', editTask);
       render();
     }
   };
-  // editableTask.onblur = () => {
-  //   render();
-  // };
 
   editableTask.addEventListener('keydown', reWrite);
   editableTask.addEventListener('keydown', cancelTask);
-  editableTask.addEventListener('blur', render);
+  editableTask.addEventListener('blur', editTask);
 };
 
 // items[index].innerHTML = inputText.value;
