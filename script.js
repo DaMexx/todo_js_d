@@ -124,15 +124,50 @@ const checkAllTasks = () => {
 
 // trying edit tasks
 const taskEdit = (e) => {
+  render();
   if (e.target && e.target.nodeName === 'SPAN') {
     const currentId = e.target.parentElement.id;
-    const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
-    alert(`${tasksArray[taskItemIndex].content}`);
-    const newR = prompt(tasksArray[taskItemIndex].content);
-    tasksArray[taskItemIndex].content = newR;
+    // const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
+    const thisEl = document.getElementById(currentId);
+    const listItem = thisEl.getElementsByTagName('SPAN')[0];
+    const inputText = document.createElement('input');
+    inputText.value = `${listItem.innerHTML}`;
+    inputText.id = 'editable';
+    listItem.parentNode.replaceChild(inputText, listItem);
+    // const text = thisEl.getElementsByTagName('SPAN');
+    // console.log(text.innerHTML);
+    // itemText.classList.add = '.new';
+    // alert(`${tasksArray[taskItemIndex].content}`);
+    // const newR = prompt(tasksArray[taskItemIndex].content);
+    // tasksArray[taskItemIndex].content = newR;
     // e.target.id = taskItemIndex + 1;
   }
-  render();
+
+  const editableTask = document.getElementById('editable');
+  const reWrite = (event) => {
+    if (event.key === 'Enter') {
+      const newContent = editableTask.value.trim();
+      const taskId = editableTask.parentElement.id;
+      const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
+      tasksArray[taskItemIndex].content = newContent;
+      editableTask.removeEventListener('blur', render);
+      render();
+    }
+  };
+
+  const cancelTask = (eventEsc) => {
+    if (eventEsc.key === 'Escape') {
+      editableTask.removeEventListener('blur', render);
+      render();
+    }
+  };
+  // editableTask.onblur = () => {
+  //   render();
+  // };
+
+  editableTask.addEventListener('keydown', reWrite);
+  editableTask.addEventListener('keydown', cancelTask);
+  editableTask.addEventListener('blur', render);
 };
 
 // items[index].innerHTML = inputText.value;
