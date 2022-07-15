@@ -39,6 +39,24 @@ const render = () => {
   allTask.innerHTML = `All (${tasksArray.length})`;
   activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
   taskDone.innerHTML = `Active (${tasksArrayComplete.length})`;
+
+  if (tasksArray.length === 0) {
+    allTask.style.display = 'none';
+  } else {
+    allTask.style.display = 'block';
+  }
+
+  if (tasksArray.length === 0) {
+    activeTask.style.display = 'none';
+  } else {
+    activeTask.style.display = 'block';
+  }
+
+  if (tasksArray.length === 0) {
+    taskDone.style.display = 'none';
+  } else {
+    taskDone.style.display = 'block';
+  }
 };
 
 const addNewTaskInArray = () => {
@@ -106,18 +124,50 @@ const checkAllTasks = () => {
 
 // trying edit tasks
 const taskEdit = (e) => {
-  const currentId = e.target.parentElement.id;
-  
+  render();
   if (e.target && e.target.nodeName === 'SPAN') {
-    const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
+    const currentId = e.target.parentElement.id;
+    // const taskItemIndex = tasksArray.findIndex((task) => task.id === +currentId);
+    const thisEl = document.getElementById(currentId);
+    const listItem = thisEl.getElementsByTagName('SPAN')[0];
+    const inputText = document.createElement('input');
+    inputText.value = `${listItem.innerHTML}`;
+    inputText.id = 'editable';
+    listItem.parentNode.replaceChild(inputText, listItem);
+    // const text = thisEl.getElementsByTagName('SPAN');
+    // console.log(text.innerHTML);
+    // itemText.classList.add = '.new';
     // alert(`${tasksArray[taskItemIndex].content}`);
     // const newR = prompt(tasksArray[taskItemIndex].content);
     // tasksArray[taskItemIndex].content = newR;
-    document.createElement('input');
-    let a = '';
-    a += `<input>`;
+    // e.target.id = taskItemIndex + 1;
   }
-  render();
+
+  const editableTask = document.getElementById('editable');
+  const reWrite = (event) => {
+    if (event.key === 'Enter') {
+      const newContent = editableTask.value.trim();
+      const taskId = editableTask.parentElement.id;
+      const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
+      tasksArray[taskItemIndex].content = newContent;
+      editableTask.removeEventListener('blur', render);
+      render();
+    }
+  };
+
+  const cancelTask = (eventEsc) => {
+    if (eventEsc.key === 'Escape') {
+      editableTask.removeEventListener('blur', render);
+      render();
+    }
+  };
+  // editableTask.onblur = () => {
+  //   render();
+  // };
+
+  editableTask.addEventListener('keydown', reWrite);
+  editableTask.addEventListener('keydown', cancelTask);
+  editableTask.addEventListener('blur', render);
 };
 
 // items[index].innerHTML = inputText.value;
