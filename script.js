@@ -17,15 +17,15 @@ const render = () => {
     <span>${item.content}</span>
     <button class = 'list-button'>X</button>
     </li>`;
-    // return null;
   });
   taskListMain.innerHTML = tasks;
 
-  if (tasksArray.every((item) => item.status === true)) {
-    checkBoxAll.checked = true;
-  } else {
-    checkBoxAll.checked = false;
-  }
+  // if (tasksArray.every((item) => item.status === true)) {
+  //   checkBoxAll.checked = true;
+  // } else {
+  //   checkBoxAll.checked = false;
+  // }
+  checkBoxAll.checked = !!tasksArray.length && tasksArray.every((item) => item.status);
 
   if (tasksArray.length === 0) {
     checkField.style.display = 'none';
@@ -40,19 +40,19 @@ const render = () => {
   activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
   taskDone.innerHTML = `Active (${tasksArrayComplete.length})`;
 
-  if (tasksArray.length === 0) {
+  if (!tasksArray.length) {
     allTask.style.display = 'none';
   } else {
     allTask.style.display = 'block';
   }
 
-  if (tasksArray.length === 0) {
+  if (!tasksArray.length) {
     activeTask.style.display = 'none';
   } else {
     activeTask.style.display = 'block';
   }
 
-  if (tasksArray.length === 0) {
+  if (!tasksArray.length) {
     taskDone.style.display = 'none';
   } else {
     taskDone.style.display = 'block';
@@ -121,8 +121,7 @@ const checkAllTasks = () => {
   render();
 };
 
-// trying edit tasks
-const taskEdit = (e) => {
+const editTask = (e) => {
   if (e.target && e.target.nodeName === 'SPAN') {
     const currentId = e.target.parentElement.id;
     const thisEl = document.getElementById(currentId);
@@ -135,39 +134,35 @@ const taskEdit = (e) => {
     const editableTask = document.getElementById('editable');
     editableTask.focus();
 
-    const editTask = () => {
+    const createNewTask = () => {
       const newContent = editableTask.value.trim();
       const taskId = editableTask.parentElement.id;
       const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
-      tasksArray[taskItemIndex].content = newContent;
+      if (!newContent) {
+        render();
+      } else {
+        tasksArray[taskItemIndex].content = newContent;
+      }
       render();
     };
 
     const reWrite = (event) => {
       if (event.key === 'Enter') {
-        editableTask.removeEventListener('blur', editTask);
-        editTask();
-      }
-    };
-
-    const cancelTask = (event) => {
-      if (event.key === 'Escape') {
-        editableTask.removeEventListener('blur', editTask);
+        editableTask.removeEventListener('blur', createNewTask);
+        createNewTask();
+      } else if (event.key === 'Escape') {
+        editableTask.removeEventListener('blur', createNewTask);
         render();
       }
     };
 
     editableTask.addEventListener('keydown', reWrite);
-    editableTask.addEventListener('keydown', cancelTask);
-    editableTask.addEventListener('blur', editTask);
+    editableTask.addEventListener('blur', createNewTask);
   }
 };
 
-// items[index].innerHTML = inputText.value;
-
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
-// double-click event
-taskListMain.addEventListener('dblclick', taskEdit);
+taskListMain.addEventListener('dblclick', editTask);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
