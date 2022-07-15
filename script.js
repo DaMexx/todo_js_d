@@ -99,7 +99,6 @@ const checkTaskList = (e) => {
   if (e.target && e.target.type === 'checkbox') {
     //  for checkbox
     changeStat(currentId);
-    console.log(currentId);
   } else if (e.target && e.target.nodeName === 'BUTTON') {
     //  for delete_button
     deleteTask(currentId);
@@ -132,36 +131,36 @@ const taskEdit = (e) => {
     inputText.value = `${listItem.innerHTML}`;
     inputText.id = 'editable';
     listItem.parentNode.replaceChild(inputText, listItem);
-  }
 
-  const editableTask = document.getElementById('editable');
-  editableTask.focus();
+    const editableTask = document.getElementById('editable');
+    editableTask.focus();
 
-  const editTask = () => {
-    const newContent = editableTask.value.trim();
-    const taskId = editableTask.parentElement.id;
-    const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
-    tasksArray[taskItemIndex].content = newContent;
-    render();
-  };
-
-  const reWrite = (event) => {
-    if (event.key === 'Enter') {
-      editableTask.removeEventListener('blur', editTask);
-      editTask();
-    }
-  };
-
-  const cancelTask = (event) => {
-    if (event.key === 'Escape') {
-      editableTask.removeEventListener('blur', editTask);
+    const editTask = () => {
+      const newContent = editableTask.value.trim();
+      const taskId = editableTask.parentElement.id;
+      const taskItemIndex = tasksArray.findIndex((task) => task.id === +taskId);
+      tasksArray[taskItemIndex].content = newContent;
       render();
-    }
-  };
+    };
 
-  editableTask.addEventListener('keydown', reWrite);
-  editableTask.addEventListener('keydown', cancelTask);
-  editableTask.addEventListener('blur', editTask);
+    const reWrite = (event) => {
+      if (event.key === 'Enter') {
+        editableTask.removeEventListener('blur', editTask);
+        editTask();
+      }
+    };
+
+    const cancelTask = (event) => {
+      if (event.key === 'Escape') {
+        editableTask.removeEventListener('blur', editTask);
+        render();
+      }
+    };
+
+    editableTask.addEventListener('keydown', reWrite);
+    editableTask.addEventListener('keydown', cancelTask);
+    editableTask.addEventListener('blur', editTask);
+  }
 };
 
 // items[index].innerHTML = inputText.value;
