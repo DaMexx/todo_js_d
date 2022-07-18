@@ -52,7 +52,9 @@ li {
     position: relative;
     padding: auto;
 }
-
+.red {
+    background-color: #f86b7e;
+}
 input:focus {
     background-color: rgb(252, 244, 215);
 }

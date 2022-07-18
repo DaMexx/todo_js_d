@@ -13,22 +13,19 @@ const tasksArray = [];
 let currentPage = 1;
 const count = 5;
 
-const paging = (num) => {
-  if (!num) {
-    currentPage = Math.ceil(tasksArray.length / count);
-  } else currentPage = num;
-  return currentPage;
-};
-
-const render = (num) => {
-  paging(num);
+const paging = () => {
   const firstIndex = (currentPage - 1) * count;
   const lastIndex = firstIndex + count;
-
+  currentPage = Math.ceil(tasksArray.length / count);
   const taskVisual = tasksArray.slice(firstIndex, lastIndex);
+  console.log(taskVisual);
+  return taskVisual;
+};
 
+const render = () => {
+  const newArr = paging();
   let tasks = '';
-  taskVisual.forEach((item) => {
+  newArr.forEach((item) => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
@@ -78,7 +75,6 @@ const render = (num) => {
   pageSwitch.innerHTML = '';
 
   for (let i = 1; i <= +currentPage; i += 1) {
-    currentPage = Math.ceil(tasksArray.length / count);
     if (tasksArray.length < count + 1) {
       return;
     }
@@ -98,7 +94,11 @@ const addNewTaskInArray = () => {
   };
   mainInput.value = '';
   tasksArray.push(task);
+  // paging();
+  paging();
+  console.log(currentPage);
   render();
+  console.log(currentPage);
 };
 
 const enterEvent = (event) => {
@@ -120,6 +120,7 @@ const changeStat = (id) => {
 const deleteTask = (id) => {
   const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
   tasksArray.splice(taskItemIndex, 1);
+  paging();
   render();
 };
 
@@ -146,7 +147,6 @@ const checkAllTasks = () => {
       task.status = false;
     });
   }
-
   render();
 };
 
@@ -192,8 +192,8 @@ const editTask = (e) => {
 
 const changePage = (e) => {
   if (e.target.nodeName === 'BUTTON') {
-    const value = +e.target.innerHTML;
-    render(value);
+    currentPage = +e.target.innerHTML;
+    render();
   }
 };
 
