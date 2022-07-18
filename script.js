@@ -6,12 +6,29 @@ const checkBoxAll = document.getElementById('checkAll');
 const allTask = document.getElementById('allTask');
 const activeTask = document.getElementById('activeTask');
 const taskDone = document.getElementById('taskDone');
+const pageSwitch = document.getElementById('page_switch');
 
 const tasksArray = [];
 
-const render = () => {
+let currentPage = 1;
+const count = 5;
+
+const paging = (num) => {
+  if (!num) {
+    currentPage = Math.ceil(tasksArray.length / count);
+  } else currentPage = num;
+  return currentPage;
+};
+
+const render = (num) => {
+  paging(num);
+  const firstIndex = (currentPage - 1) * count;
+  const lastIndex = firstIndex + count;
+
+  const taskVisual = tasksArray.slice(firstIndex, lastIndex);
+
   let tasks = '';
-  tasksArray.forEach((item) => {
+  taskVisual.forEach((item) => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
@@ -56,6 +73,18 @@ const render = () => {
     taskDone.style.display = 'none';
   } else {
     taskDone.style.display = 'block';
+  }
+
+  pageSwitch.innerHTML = '';
+
+  for (let i = 1; i <= +currentPage; i += 1) {
+    currentPage = Math.ceil(tasksArray.length / count);
+    if (tasksArray.length < count + 1) {
+      return;
+    }
+    const button = document.createElement('BUTTON');
+    button.innerHTML = i;
+    pageSwitch.append(button);
   }
 };
 
@@ -161,6 +190,14 @@ const editTask = (e) => {
   }
 };
 
+const changePage = (e) => {
+  if (e.target.nodeName === 'BUTTON') {
+    const value = +e.target.innerHTML;
+    render(value);
+  }
+};
+
+pageSwitch.addEventListener('click', changePage);
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
 taskListMain.addEventListener('dblclick', editTask);
