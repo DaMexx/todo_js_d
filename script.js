@@ -1,38 +1,48 @@
-const mainInput = document.getElementById('task_input');
-const addButton = document.getElementById('button');
+const mainInput = document.getElementById('task-input');
+const addButton = document.getElementById('add-task-button');
 const taskListMain = document.getElementById('task-list');
-const checkField = document.getElementById('checkField');
-const checkBoxAll = document.getElementById('checkAll');
-const allTask = document.getElementById('allTask');
-const activeTask = document.getElementById('activeTask');
-const taskDone = document.getElementById('taskDone');
+const checkField = document.getElementById('field-for-check-all-tasks');
+const checkBoxAll = document.getElementById('check-all-tasks');
+const allTask = document.getElementById('all-task-counter');
+const activeTasks = document.getElementById('active-task-counter');
+const completeTasks = document.getElementById('complete-task-counter');
 const pageSwitch = document.getElementById('pagination-buttons');
 
 const tasksArray = [];
-let tasksArrayActive = [];
-let tasksArrayComplete = [];
 
-let currentPage = 1;
+let currentPage;
 const count = 5;
+
+
+const filterTasksArray = () => {
+  let currentTasksArray = tasksArray;
+
+  if (activeTasks.classList.contains('red')) {
+    currentTasksArray = tasksArray.filter((el) => el.status === false);
+  } else if (completeTasks.classList.contains('red')) {
+    currentTasksArray = tasksArray.filter((el) => el.status === true);
+  }
+  const tasksArrayActive = tasksArray.filter((el) => el.status === false);
+  const tasksArrayComplete = tasksArray.filter((el) => el.status === true);
+
+  allTask.innerHTML = `All (${tasksArray.length})`;
+  activeTasks.innerHTML = `Active (${tasksArrayActive.length})`;
+  completeTasks.innerHTML = `Complete (${tasksArrayComplete.length})`;
+
+  return currentTasksArray;
+};
 
 const getCurrentPage = () => {
   currentPage = Math.ceil(tasksArray.length / count);
 };
 
 const paging = () => {
+  const newArray = filterTasksArray();
   const firstIndex = (currentPage - 1) * count;
   const lastIndex = firstIndex + count;
-  let taskVisual = [];
-  tasksArrayActive = tasksArray.filter((el) => el.status === false);
-  tasksArrayComplete = tasksArray.filter((el) => el.status === true);
+  newArray.slice(firstIndex, lastIndex);
 
-  if (activeTask.classList.contains('red')) {
-    taskVisual = tasksArrayActive.slice(firstIndex, lastIndex);
-  } else if (taskDone.classList.contains('red')) {
-    taskVisual = tasksArrayComplete.slice(firstIndex, lastIndex);
-  } else taskVisual = tasksArray.slice(firstIndex, lastIndex);
-
-  return taskVisual;
+  return newArray;
 };
 
 const render = () => {
@@ -59,35 +69,37 @@ const render = () => {
     checkField.style.display = 'block';
   }
 
-  allTask.innerHTML = `All (${tasksArray.length})`;
-  activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
-  taskDone.innerHTML = `Complete (${tasksArrayComplete.length})`;
+  // allTask.innerHTML = `All (${tasksArray.length})`;
+  // activeTasks.innerHTML = `Active (${tasksArrayActive.length})`;
+  // completeTasks.innerHTML = `Complete (${tasksArrayComplete.length})`;
 
-  if (!tasksArray.length) {
-    allTask.style.display = 'none';
-  } else {
-    allTask.style.display = 'block';
-  }
+  // if (!tasksArray.length) {
+  //   allTask.style.display = 'none';
+  // } else {
+  //   allTask.style.display = 'block';
+  // }
 
-  if (!tasksArray.length) {
-    activeTask.style.display = 'none';
-  } else {
-    activeTask.style.display = 'block';
-  }
+  // if (!tasksArray.length) {
+  //   activeTasks.style.display = 'none';
+  // } else {
+  //   activeTasks.style.display = 'block';
+  // }
 
-  if (!tasksArray.length) {
-    taskDone.style.display = 'none';
-  } else {
-    taskDone.style.display = 'block';
-  }
+  // if (!tasksArray.length) {
+  //   completeTasks.style.display = 'none';
+  // } else {
+  //   completeTasks.style.display = 'block';
+  // }
 
   pageSwitch.innerHTML = '';
   let currentPageList;
-  if (activeTask.classList.contains('red')) {
-    currentPageList = Math.ceil(tasksArrayActive.length / count);
-  } else if (taskDone.classList.contains('red')) {
-    currentPageList = Math.ceil(tasksArrayComplete.length / count);
-  } else currentPageList = Math.ceil(tasksArray.length / count);
+
+  // if (activeTasks.classList.contains('red')) {
+  //   currentTasksArray = Math.ceil(tasksArrayActive.length / count);
+  // } else if (completeTasks.classList.contains('red')) {
+  //   currentTasksArray = Math.ceil(tasksArrayComplete.length / count);
+  // } else currentTasksArray = Math.ceil(tasksArray.length / count);
+
 
   // const currentPageList = Math.ceil(tasksArray.length / count);
 
@@ -213,12 +225,12 @@ const changePage = (e) => {
   }
 };
 
-const checkActiveTask = (e) => {
+const checkactiveTasks = (e) => {
   if (e.target.classList.contains('red')) {
     return;
   }
   allTask.classList.remove('red');
-  taskDone.classList.remove('red');
+  completeTasks.classList.remove('red');
   e.target.classList.add('red');
   currentPage = 1;
   render();
@@ -229,24 +241,22 @@ const checkDoneTasks = (e) => {
     return;
   }
   allTask.classList.remove('red');
-  activeTask.classList.remove('red');
+  activeTasks.classList.remove('red');
   e.target.classList.add('red');
   currentPage = 1;
   render();
 };
 const showAllTasks = (e) => {
   if (e.target) {
-    activeTask.classList.remove('red');
-    taskDone.classList.remove('red');
+    activeTasks.classList.remove('red');
+    completeTasks.classList.remove('red');
     render();
   }
 };
-//
-// allTask.addEventListener('click', );
+
 allTask.addEventListener('click', showAllTasks);
-taskDone.addEventListener('click', checkDoneTasks);
-activeTask.addEventListener('click', checkActiveTask);
-//
+completeTasks.addEventListener('click', checkDoneTasks);
+activeTasks.addEventListener('click', checkactiveTasks);
 pageSwitch.addEventListener('click', changePage);
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);

@@ -1,4 +1,4 @@
-#button {
+#add-task-button{
     background-color: #a5a5a5;
     border: 1px solid rgb(7, 80, 240);
     border-radius: none;
@@ -11,7 +11,7 @@
     margin: 4px 2px;
 }
 
-#button:hover {
+#add-task-button:hover {
     background-color: green;
 }
 
@@ -90,7 +90,7 @@ input:focus {
 
 }
 #tabulation div:hover{
-    background-color: #f86b7e;
+    border: 1px black dotted;
 }
 
 .list-button:hover {
