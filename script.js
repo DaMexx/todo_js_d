@@ -10,13 +10,16 @@ const pageSwitch = document.getElementById('page_switch');
 
 const tasksArray = [];
 
-let currentPage = 1;
+let currentPage;
 const count = 5;
+
+const getCurrentPage = () => {
+  currentPage = Math.ceil(tasksArray.length / count);
+};
 
 const paging = () => {
   const firstIndex = (currentPage - 1) * count;
   const lastIndex = firstIndex + count;
-  currentPage = Math.ceil(tasksArray.length / count);
   const taskVisual = tasksArray.slice(firstIndex, lastIndex);
   console.log(taskVisual);
   return taskVisual;
@@ -52,7 +55,7 @@ const render = () => {
 
   allTask.innerHTML = `All (${tasksArray.length})`;
   activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
-  taskDone.innerHTML = `Active (${tasksArrayComplete.length})`;
+  taskDone.innerHTML = `Complete (${tasksArrayComplete.length})`;
 
   if (!tasksArray.length) {
     allTask.style.display = 'none';
@@ -73,8 +76,10 @@ const render = () => {
   }
 
   pageSwitch.innerHTML = '';
+  
+  const currentPageList = Math.ceil(tasksArray.length / count);
 
-  for (let i = 1; i <= +currentPage; i += 1) {
+  for (let i = 1; i <= +currentPageList; i += 1) {
     if (tasksArray.length < count + 1) {
       return;
     }
@@ -94,11 +99,8 @@ const addNewTaskInArray = () => {
   };
   mainInput.value = '';
   tasksArray.push(task);
-  // paging();
-  paging();
-  console.log(currentPage);
+  getCurrentPage();
   render();
-  console.log(currentPage);
 };
 
 const enterEvent = (event) => {
@@ -120,7 +122,6 @@ const changeStat = (id) => {
 const deleteTask = (id) => {
   const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
   tasksArray.splice(taskItemIndex, 1);
-  paging();
   render();
 };
 
@@ -130,7 +131,6 @@ const checkTaskList = (e) => {
     //  for checkbox
     changeStat(currentId);
   } else if (e.target && e.target.nodeName === 'BUTTON') {
-    //  for delete_button
     deleteTask(currentId);
   }
 };
