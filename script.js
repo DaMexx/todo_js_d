@@ -1,12 +1,12 @@
 const mainInput = document.getElementById('task_input');
 const addButton = document.getElementById('button');
-const taskListMain = document.getElementById('task_list');
+const taskListMain = document.getElementById('task-list');
 const checkField = document.getElementById('checkField');
 const checkBoxAll = document.getElementById('checkAll');
 const allTask = document.getElementById('allTask');
 const activeTask = document.getElementById('activeTask');
 const taskDone = document.getElementById('taskDone');
-const pageSwitch = document.getElementById('page_switch');
+const pageSwitch = document.getElementById('pagination-buttons');
 
 const tasksArray = [];
 let tasksArrayActive = [];
