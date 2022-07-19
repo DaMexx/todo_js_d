@@ -3,12 +3,16 @@ const addButton = document.getElementById('button');
 const taskListMain = document.getElementById('task_list');
 const checkField = document.getElementById('checkField');
 const checkBoxAll = document.getElementById('checkAll');
+// tabulation buttons
 const allTask = document.getElementById('allTask');
 const activeTask = document.getElementById('activeTask');
 const taskDone = document.getElementById('taskDone');
+// tabulation buttons
 const pageSwitch = document.getElementById('page_switch');
 
 const tasksArray = [];
+let tasksArrayActive = [];
+let tasksArrayComplete = [];
 
 let currentPage;
 const count = 5;
@@ -20,8 +24,15 @@ const getCurrentPage = () => {
 const paging = () => {
   const firstIndex = (currentPage - 1) * count;
   const lastIndex = firstIndex + count;
-  const taskVisual = tasksArray.slice(firstIndex, lastIndex);
-  console.log(taskVisual);
+  let taskVisual = [];
+  tasksArrayActive = tasksArray.filter((el) => el.status === false);
+  tasksArrayComplete = tasksArray.filter((el) => el.status === true);
+
+  if (activeTask.classList.contains('red')) {
+    taskVisual = tasksArrayActive.slice(firstIndex, lastIndex);
+  } else if (taskDone.classList.contains('red')) {
+    taskVisual = tasksArrayComplete.slice(firstIndex, lastIndex);
+  } else taskVisual = tasksArray.slice(firstIndex, lastIndex);
   return taskVisual;
 };
 
@@ -50,9 +61,6 @@ const render = () => {
     checkField.style.display = 'block';
   }
 
-  const tasksArrayActive = tasksArray.filter((el) => el.status === true);
-  const tasksArrayComplete = tasksArray.filter((el) => el.status === false);
-
   allTask.innerHTML = `All (${tasksArray.length})`;
   activeTask.innerHTML = `Active (${tasksArrayActive.length})`;
   taskDone.innerHTML = `Complete (${tasksArrayComplete.length})`;
@@ -76,8 +84,14 @@ const render = () => {
   }
 
   pageSwitch.innerHTML = '';
-  
-  const currentPageList = Math.ceil(tasksArray.length / count);
+  let currentPageList;
+  if (activeTask.classList.contains('red')) {
+    currentPageList = Math.ceil(tasksArrayActive.length / count);
+  } else if (taskDone.classList.contains('red')) {
+    currentPageList = Math.ceil(tasksArrayComplete.length / count);
+  } else currentPageList = Math.ceil(tasksArray.length / count);
+
+  // const currentPageList = Math.ceil(tasksArray.length / count);
 
   for (let i = 1; i <= +currentPageList; i += 1) {
     if (tasksArray.length < count + 1) {
@@ -197,6 +211,39 @@ const changePage = (e) => {
   }
 };
 
+const checkActiveTask = (e) => {
+  if (e.target.classList.contains('red')) {
+    return;
+  }
+  allTask.classList.remove('red');
+  taskDone.classList.remove('red');
+  e.target.classList.add('red');
+  currentPage = 1;
+  render();
+};
+
+const checkDoneTasks = (e) => {
+  if (e.target.classList.contains('red')) {
+    return;
+  }
+  allTask.classList.remove('red');
+  activeTask.classList.remove('red');
+  e.target.classList.add('red');
+  currentPage = 1;
+  render();
+};
+const showAllTasks = (e) => {
+  if (e.target) {
+    activeTask.classList.remove('red');
+    taskDone.classList.remove('red');
+  }
+};
+//
+// allTask.addEventListener('click', );
+allTask.addEventListener('click', showAllTasks);
+taskDone.addEventListener('click', checkDoneTasks);
+activeTask.addEventListener('click', checkActiveTask);
+//
 pageSwitch.addEventListener('click', changePage);
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);

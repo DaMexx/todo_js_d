@@ -53,7 +53,7 @@ li {
     padding: auto;
 }
 .red {
-    background-color: #f86b7e;
+    background-color: rgb(241, 178, 178);
 }
 input:focus {
     background-color: rgb(252, 244, 215);
