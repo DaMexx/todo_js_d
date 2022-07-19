@@ -52,9 +52,11 @@ li {
     position: relative;
     padding: auto;
 }
+
 .red {
     background-color: rgb(241, 178, 178);
 }
+
 input:focus {
     background-color: rgb(252, 244, 215);
 }
@@ -87,7 +89,9 @@ input:focus {
     margin: 2px 2px;
 
 }
-
+#tabulation div:hover{
+    background-color: #f86b7e;
+}
 
 .list-button:hover {
     background-color: red;

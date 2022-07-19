@@ -3,18 +3,16 @@ const addButton = document.getElementById('button');
 const taskListMain = document.getElementById('task_list');
 const checkField = document.getElementById('checkField');
 const checkBoxAll = document.getElementById('checkAll');
-// tabulation buttons
 const allTask = document.getElementById('allTask');
 const activeTask = document.getElementById('activeTask');
 const taskDone = document.getElementById('taskDone');
-// tabulation buttons
 const pageSwitch = document.getElementById('page_switch');
 
 const tasksArray = [];
 let tasksArrayActive = [];
 let tasksArrayComplete = [];
 
-let currentPage;
+let currentPage = 1;
 const count = 5;
 
 const getCurrentPage = () => {
@@ -33,13 +31,15 @@ const paging = () => {
   } else if (taskDone.classList.contains('red')) {
     taskVisual = tasksArrayComplete.slice(firstIndex, lastIndex);
   } else taskVisual = tasksArray.slice(firstIndex, lastIndex);
+
   return taskVisual;
 };
 
 const render = () => {
-  const newArr = paging();
+  const currentTasks = paging();
+
   let tasks = '';
-  newArr.forEach((item) => {
+  currentTasks.forEach((item) => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
     <span>${item.content}</span>
@@ -47,12 +47,10 @@ const render = () => {
     </li>`;
   });
   taskListMain.innerHTML = tasks;
+  if (currentTasks.length === 0) {
+    getCurrentPage();
+  }
 
-  // if (tasksArray.every((item) => item.status === true)) {
-  //   checkBoxAll.checked = true;
-  // } else {
-  //   checkBoxAll.checked = false;
-  // }
   checkBoxAll.checked = !!tasksArray.length && tasksArray.every((item) => item.status);
 
   if (tasksArray.length === 0) {
@@ -94,9 +92,9 @@ const render = () => {
   // const currentPageList = Math.ceil(tasksArray.length / count);
 
   for (let i = 1; i <= +currentPageList; i += 1) {
-    if (tasksArray.length < count + 1) {
-      return;
-    }
+    // if (tasksArray.length < count + 1) {
+    //   return;
+    // }
     const button = document.createElement('BUTTON');
     button.innerHTML = i;
     pageSwitch.append(button);
@@ -137,6 +135,10 @@ const deleteTask = (id) => {
   const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
   tasksArray.splice(taskItemIndex, 1);
   render();
+  if (taskListMain.innerHTML === '') {
+    getCurrentPage();
+    render();
+  }
 };
 
 const checkTaskList = (e) => {
@@ -236,6 +238,7 @@ const showAllTasks = (e) => {
   if (e.target) {
     activeTask.classList.remove('red');
     taskDone.classList.remove('red');
+    render();
   }
 };
 //
