@@ -1,21 +1,27 @@
+// document.addEventListener('DOMContentLoaded', () => {
+const { _ } = window;
 const mainInput = document.getElementById('task-input');
 const addButton = document.getElementById('add-task-button');
 const taskListMain = document.getElementById('task-list');
-const checkField = document.getElementById('field-for-check-all-tasks');
+// const checkField = document.getElementById('field-for-check-all-tasks');
 const checkBoxAll = document.getElementById('check-all-tasks');
 const allTask = document.getElementById('all-task-counter');
 const activeTasks = document.getElementById('active-task-counter');
 const completeTasks = document.getElementById('complete-task-counter');
 const pageSwitch = document.getElementById('pagination-buttons');
+const deleteCompleteTasksButtonSpace = document.getElementById('for-delete-complete-tasks-button');
 
-const tasksArray = [];
-
+let tasksArray = [];
 let currentPage;
+let currentPageList;
 const count = 5;
 
+const getCurrentPage = () => {
+  currentPage = Math.ceil(tasksArray.length / count);
+};
 
 const filterTasksArray = () => {
-  let currentTasksArray = tasksArray;
+  let currentTasksArray = tasksArray.slice();
 
   if (activeTasks.classList.contains('red')) {
     currentTasksArray = tasksArray.filter((el) => el.status === false);
@@ -29,84 +35,50 @@ const filterTasksArray = () => {
   activeTasks.innerHTML = `Active (${tasksArrayActive.length})`;
   completeTasks.innerHTML = `Complete (${tasksArrayComplete.length})`;
 
+  currentPageList = Math.ceil(currentTasksArray.length / count);
+
+  if (tasksArrayComplete.length) {
+    deleteCompleteTasksButtonSpace.innerHTML = '';
+    const deleteAllTasksButton = document.createElement('button');
+    deleteAllTasksButton.innerHTML = 'delete complete tasks';
+    deleteCompleteTasksButtonSpace.append(deleteAllTasksButton);
+  }
+
   return currentTasksArray;
 };
 
-const getCurrentPage = () => {
-  currentPage = Math.ceil(tasksArray.length / count);
-};
-
 const paging = () => {
-  const newArray = filterTasksArray();
+  const paginationArray = filterTasksArray();
   const firstIndex = (currentPage - 1) * count;
   const lastIndex = firstIndex + count;
-  newArray.slice(firstIndex, lastIndex);
-
-  return newArray;
+  const tasksOnPage = paginationArray.slice(firstIndex, lastIndex);
+  return tasksOnPage;
 };
 
 const render = () => {
   const currentTasks = paging();
 
   let tasks = '';
+
   currentTasks.forEach((item) => {
     tasks += `<li id=${item.id}>
     <input type=checkbox ${item.status ? 'checked' : ''}>
-    <span>${item.content}</span>
+    <span>${_.escape(item.content)}</span>
     <button class = 'list-button'>X</button>
     </li>`;
   });
+
   taskListMain.innerHTML = tasks;
-  if (currentTasks.length === 0) {
-    getCurrentPage();
+
+  if (taskListMain.innerHTML === '') {
+    taskListMain.innerHTML = 'Add some tasks, my friend!';
   }
 
   checkBoxAll.checked = !!tasksArray.length && tasksArray.every((item) => item.status);
 
-  if (tasksArray.length === 0) {
-    checkField.style.display = 'none';
-  } else {
-    checkField.style.display = 'block';
-  }
-
-  // allTask.innerHTML = `All (${tasksArray.length})`;
-  // activeTasks.innerHTML = `Active (${tasksArrayActive.length})`;
-  // completeTasks.innerHTML = `Complete (${tasksArrayComplete.length})`;
-
-  // if (!tasksArray.length) {
-  //   allTask.style.display = 'none';
-  // } else {
-  //   allTask.style.display = 'block';
-  // }
-
-  // if (!tasksArray.length) {
-  //   activeTasks.style.display = 'none';
-  // } else {
-  //   activeTasks.style.display = 'block';
-  // }
-
-  // if (!tasksArray.length) {
-  //   completeTasks.style.display = 'none';
-  // } else {
-  //   completeTasks.style.display = 'block';
-  // }
-
   pageSwitch.innerHTML = '';
-  let currentPageList;
-
-  // if (activeTasks.classList.contains('red')) {
-  //   currentTasksArray = Math.ceil(tasksArrayActive.length / count);
-  // } else if (completeTasks.classList.contains('red')) {
-  //   currentTasksArray = Math.ceil(tasksArrayComplete.length / count);
-  // } else currentTasksArray = Math.ceil(tasksArray.length / count);
-
-
-  // const currentPageList = Math.ceil(tasksArray.length / count);
 
   for (let i = 1; i <= +currentPageList; i += 1) {
-    // if (tasksArray.length < count + 1) {
-    //   return;
-    // }
     const button = document.createElement('BUTTON');
     button.innerHTML = i;
     pageSwitch.append(button);
@@ -114,7 +86,7 @@ const render = () => {
 };
 
 const addNewTaskInArray = () => {
-  const content = mainInput.value.trim();
+  const content = _.escape(mainInput.value.trim());
   if (!content) return;
   const task = {
     content,
@@ -225,7 +197,7 @@ const changePage = (e) => {
   }
 };
 
-const checkactiveTasks = (e) => {
+const showActiveTasks = (e) => {
   if (e.target.classList.contains('red')) {
     return;
   }
@@ -236,7 +208,7 @@ const checkactiveTasks = (e) => {
   render();
 };
 
-const checkDoneTasks = (e) => {
+const showDoneTasks = (e) => {
   if (e.target.classList.contains('red')) {
     return;
   }
@@ -254,12 +226,26 @@ const showAllTasks = (e) => {
   }
 };
 
+const clear = () => {
+  const newArray = tasksArray.filter((el) => el.status === false);
+  tasksArray = newArray;
+};
+
+const deleteCompleteTask = (e) => {
+  if (e.target.nodeName === 'BUTTON') {
+    clear();
+    render();
+  }
+};
+
+deleteCompleteTasksButtonSpace.addEventListener('click', deleteCompleteTask);
 allTask.addEventListener('click', showAllTasks);
-completeTasks.addEventListener('click', checkDoneTasks);
-activeTasks.addEventListener('click', checkactiveTasks);
+completeTasks.addEventListener('click', showDoneTasks);
+activeTasks.addEventListener('click', showActiveTasks);
 pageSwitch.addEventListener('click', changePage);
 checkBoxAll.addEventListener('click', checkAllTasks);
 taskListMain.addEventListener('click', checkTaskList);
 taskListMain.addEventListener('dblclick', editTask);
 addButton.addEventListener('click', addNewTaskInArray);
 mainInput.addEventListener('keydown', enterEvent);
+// });

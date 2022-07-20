@@ -1,0 +1,29 @@
+{
+  "name": "misyuchenko_todojs",
+  "version": "1.0.0",
+  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Maxim_Misyuchenko@bitbucket.org/maxim_misyuchenko/misyuchenko_todojs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/maxim_misyuchenko/misyuchenko_todojs/issues"
+  },
+  "homepage": "https://bitbucket.org/maxim_misyuchenko/misyuchenko_todojs#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.19.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

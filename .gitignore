@@ -5,8 +5,8 @@
 .history
 ./node_modules
 .eslintrc.json
-package-lock.json
-package.json
+#package-lock.json
+#package.json
 # Node artifact files
 node_modules/
 dist/
