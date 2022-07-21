@@ -13,36 +13,34 @@
 
 <body>
 
+  <head>ToDo Pure Js App</head>
   <div class="input-group" class="input">
-
     <input class="input-group-text" id="task-input" type="text">
-    <button id="add-task-button">OK</button>
-
+    <button class="btn btn-outline-success" id="add-task-button">✔</button>
   </div>
 
   <div class="added-tasks">
 
     <div id="field-for-check-all-tasks">
       <input id="check-all-tasks" type=checkbox>
-      <span>Check all tasks</span>
+      <span class="form-label">Check all tasks</span>
     </div>
 
-    <ul id="task-list"></ul>
-    <div id="pagination-buttons"></div>
+    <div class="task-container">
+      <ul class="list-group" id ="task-list"></ul>
+    </div>
+    <div class="pagination" id="pagination-buttons"></div>
 
-    <div class="input-group" id="tabulation">
-      <div class="input-group-text" id="all-task-counter">All (0)</div>
-      <div class="input-group-text" id="active-task-counter">Active (0)</div>
-      <div class="input-group-text" id="complete-task-counter">Complete (0)</div>
+    <div class="btn-group" id="tabulation">
+      <button class="btn btn-primary" id="all-task-counter">All (0)</button>
+      <button class="btn btn-primary" id="active-task-counter">Active (0)</button>
+      <button class="btn btn-primary" id="complete-task-counter">Complete (0)</button>
     </div>
     <div class="input-group" id="for-delete-complete-tasks-button"></div>
-    <!-- <div class="input-group input-group-lg">
-      <div></div>
-      <span class="input-group-text" id="inputGroup-sizing-lg">Large</span>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-    </div> -->
   </div>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/lodash/4.10.0/lodash.js"></script>
   <script src="./script.js"></script>
 </body>
