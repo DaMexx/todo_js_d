@@ -40,8 +40,11 @@ const filterTasksArray = () => {
   if (tasksArrayComplete.length) {
     deleteCompleteTasksButtonSpace.innerHTML = '';
     const deleteAllTasksButton = document.createElement('button');
+    deleteAllTasksButton.classList.add('input-group-text');
     deleteAllTasksButton.innerHTML = 'delete complete tasks';
     deleteCompleteTasksButtonSpace.append(deleteAllTasksButton);
+  } else {
+    deleteCompleteTasksButtonSpace.innerHTML = '';
   }
 
   return currentTasksArray;
@@ -61,18 +64,18 @@ const render = () => {
   let tasks = '';
 
   currentTasks.forEach((item) => {
-    tasks += `<li id=${item.id}>
-    <input type=checkbox ${item.status ? 'checked' : ''}>
-    <span>${_.escape(item.content)}</span>
-    <button class = 'list-button'>X</button>
+    tasks += `<li class="input-group mb-3" id=${item.id}>
+    <input class="form-check-input mt-2" type=checkbox ${item.status ? 'checked' : ''}>
+    <span class="input-group-text text-wrap">${_.escape(item.content)}</span>
+    <button class="btn btn-outline-secondary">X</button>
     </li>`;
   });
 
   taskListMain.innerHTML = tasks;
 
-  if (taskListMain.innerHTML === '') {
-    taskListMain.innerHTML = 'Add some tasks, my friend!';
-  }
+  // if (taskListMain.innerHTML === '') {
+  //   taskListMain.innerHTML = 'Add some tasks, my friend!';
+  // }
 
   checkBoxAll.checked = !!tasksArray.length && tasksArray.every((item) => item.status);
 
@@ -156,6 +159,7 @@ const editTask = (e) => {
     const thisEl = document.getElementById(currentId);
     const listItem = thisEl.getElementsByTagName('SPAN')[0];
     const inputText = document.createElement('input');
+    inputText.classList.add('form-control');
     inputText.value = `${listItem.innerHTML}`;
     inputText.id = 'editable';
     listItem.parentNode.replaceChild(inputText, listItem);
@@ -198,7 +202,7 @@ const changePage = (e) => {
 };
 
 const showActiveTasks = (e) => {
-  if (e.target.classList.contains('red')) {
+  if (e.target.classList.contains('red') && mainInput.innerHTML !== '') {
     return;
   }
   allTask.classList.remove('red');
@@ -209,7 +213,7 @@ const showActiveTasks = (e) => {
 };
 
 const showDoneTasks = (e) => {
-  if (e.target.classList.contains('red')) {
+  if (e.target.classList.contains('red') && mainInput.innerHTML !== '') {
     return;
   }
   allTask.classList.remove('red');
