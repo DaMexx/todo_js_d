@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+(() => {
   const { _ } = window;
   const mainInput = document.getElementById('task-input');
   const addButton = document.getElementById('add-task-button');
@@ -249,4 +249,4 @@ document.addEventListener('DOMContentLoaded', () => {
   taskListMain.addEventListener('dblclick', editTask);
   addButton.addEventListener('click', addNewTaskInArray);
   mainInput.addEventListener('keydown', enterEvent);
-});
+})();
