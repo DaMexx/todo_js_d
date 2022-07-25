@@ -11,11 +11,9 @@ html {
     font-weight: 500;
     font-size: 20px;
     color: white;
-    /* background-color: black; */
 }
 
 html,
-
 body {
     display: flex;
     justify-content: center;
@@ -37,14 +35,9 @@ header {
     margin: 10px auto 0;
 }
 
-/* button {
-    border: 1px black dotted;
-} */
-
 .input-group {
     margin: 0;
     justify-content: center;
-    /* margin-top: 50px; */
 }
 
 .task-container {
@@ -73,69 +66,18 @@ header {
     margin-right: auto;
 }
 
-/* #add-task-button{
-    background-color: #a5a5a5;
-    border: 1px solid rgb(7, 80, 240);
-    border-radius: none;
-    color: white;
-    padding: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
-    margin: 4px 2px;
-} */
-
-/* #add-task-button:hover {
-    background-color: green;
-} */
-
-/* #checkField {
-    display: none;
-}
-
-.input {
-    display: flex;
-    justify-content: center;
-}
-
-.new {
-    height: 50px;
-    width: 50px;
-    background-color: aqua;
-}
-
-ul {
-    list-style: none;
-    padding-left: 0px;
-}
-
-.added-tasks {
-    max-width: 800px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-} */
-
-/* li {
-    margin-left: 16px;
-    max-height: auto;
-    max-width: auto;
-    word-wrap: break-word;
-    background-color: aquamarine;
-    list-style-type: none;
-    position: relative;
-    padding: auto;
-} */
-
 .red {
-
     background-color: blueviolet;
 }
 
-/* input:focus {
-    background-color: rgb(252, 244, 215);
-} */
+.red :focus {
+    color: none;
+    background-color: none;
+    border-color: none;
+    box-shadow: none;
+    outline: 0;
+}
+
 
 .task-list-container {
     display: flex;
@@ -144,45 +86,3 @@ ul {
 
 
 }
-
-/* .list-button {
-    width: 1.3em;
-    height: 1.3em;
-    background-color: rgb(206, 206, 206);
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
-} */
-
-/* .list-button {
-    background-color: #f86b7e;
-    border: 1px solid rgb(99, 0, 0); 
-    border-radius: 50%;
-    color: white;
-    padding: 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 8px;
-    margin: 2px 2px;
-
-} */
-/* #tabulation div:hover{
-    border: 1px black dotted;
-}
-
-.list-button:hover {
-    background-color: red;
-} */
-
-/* button:hover {
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border: none;
-    background-color: red;
-} */
