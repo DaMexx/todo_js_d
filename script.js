@@ -122,14 +122,18 @@
     render();
   };
 
-  const deleteTask = (id) => {
-    const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
-    tasksArray.splice(taskItemIndex, 1);
-    render();
+  const checkEmptyPage = () => {
     if (TaskListMain.innerHTML === '') {
       getCurrentPage();
       render();
     }
+  };
+
+  const deleteTask = (id) => {
+    const taskItemIndex = tasksArray.findIndex((task) => task.id === +id);
+    tasksArray.splice(taskItemIndex, 1);
+    render();
+    checkEmptyPage();
   };
 
   const checkTaskList = (event) => {
@@ -196,9 +200,6 @@
   };
 
   const showActiveTasks = (event) => {
-    if (event.target.classList.contains('red') && MainInput.innerHTML !== '') {
-      return;
-    }
     CompleteTasks.classList.remove('red');
     event.target.classList.add('red');
     currentPage = 1;
@@ -206,9 +207,6 @@
   };
 
   const showDoneTasks = (event) => {
-    if (event.target.classList.contains('red') && MainInput.innerHTML !== '') {
-      return;
-    }
     ActiveTasks.classList.remove('red');
     event.target.classList.add('red');
     currentPage = 1;
@@ -226,12 +224,13 @@
   const clear = () => {
     const newArray = tasksArray.filter((element) => element.status === false);
     tasksArray = newArray;
+    render();
   };
 
   const deleteCompleteTask = (event) => {
     if (event.target.nodeName === 'BUTTON') {
       clear();
-      render();
+      checkEmptyPage();
     }
   };
 
